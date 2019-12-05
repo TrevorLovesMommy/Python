@@ -13,7 +13,7 @@ total_votes = poll_data_df["Voter ID"].count()
 #default is decending order, so first candidate is the winner
 candidate_votes = poll_data_df["Candidate"].value_counts()
 
-#convert series to data frame
+#convert series to data frame (found on stack overflow)
 candidate_summary_df = candidate_votes.to_frame().reset_index()
 
 #rename column headings
@@ -21,6 +21,7 @@ candidate_summary_df.columns = ['Candidates', 'Votes']
 
 #add % column/series to candidate_summary_df
 candidate_summary_df["Percentage"] = candidate_summary_df["Votes"]/total_votes
+#this line of code was found on stack overflow
 candidate_summary_df["Percentage"] = pd.Series(["{0:.3f}%".format(i * 100) for i in candidate_summary_df["Percentage"]])
 
 #format votes with ()
@@ -36,7 +37,7 @@ print(f"Total Votes: {total_votes}")
 print("-------------------------")
 print(candidate_summary_df.to_string(index=False, header=False))
 print("-------------------------")
-print(candidate_summary_df.iloc[0,0])
+print(f"Winner:  {candidate_summary_df.iloc[0,0]}")
 print("-------------------------")
 
 #print to text file
@@ -46,6 +47,6 @@ print(f"Total Votes: {total_votes}", file=open("pypoll_output.txt", "a"))
 print("-------------------------", file=open("pypoll_output.txt", "a"))
 print(candidate_summary_df.to_string(index=False, header=False), file=open("pypoll_output.txt", "a"))
 print("-------------------------", file=open("pypoll_output.txt", "a"))
-print(candidate_summary_df.iloc[0,0], file=open("pypoll_output.txt", "a"))
+print(f"Winner:  {candidate_summary_df.iloc[0,0]}", file=open("pypoll_output.txt", "a"))
 print("-------------------------", file=open("pypoll_output.txt", "a"))
 
